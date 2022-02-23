@@ -60,7 +60,20 @@ int main(int argc, char** argv) {
     std::cerr << "Param " << descriptionName << " not found; unable to generate urdf" << std::endl;
   }
 
-  LeggedRobotInterface interface(configName, targetCommandFile, urdf::parseURDF(urdfString));
+  auto urdf_model = urdf::parseURDF(urdfString);
+
+  for(auto& [name, joint]:  urdf_model->joints_)
+  {
+    if( joint->type == urdf::Joint::CONTINUOUS )
+    {
+      joint->type = urdf::Joint::REVOLUTE;
+      joint->limits.reset( new urdf::JointLimits );
+      joint->limits->lower = -3;
+      joint->limits->upper = +3;
+    }
+  }
+
+  LeggedRobotInterface interface(configName, targetCommandFile, urdf_model);
 
   // MRT
   MRT_ROS_Interface mrt(robotName);

@@ -40,7 +40,7 @@ namespace {
 scalar_t targetDisplacementVelocity;
 scalar_t targetRotationVelocity;
 scalar_t comHeight;
-vector_t defaultJointState(12);
+vector_t defaultJointState(20);
 }  // namespace
 
 scalar_t estimateTimeToTarget(const vector_t& desiredBaseDisplacement) {

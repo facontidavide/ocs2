@@ -57,8 +57,21 @@ int main(int argc, char** argv) {
     std::cerr << "Param " << descriptionName << " not found; unable to generate urdf" << std::endl;
   }
 
+  auto urdf_model = urdf::parseURDF(urdfString);
+
+  for(auto& [name, joint]:  urdf_model->joints_)
+  {
+    if( joint->type == urdf::Joint::CONTINUOUS )
+    {
+      joint->type = urdf::Joint::REVOLUTE;
+      joint->limits.reset( new urdf::JointLimits );
+      joint->limits->lower = -3;
+      joint->limits->upper = +3;
+    }
+  }
+
   // Robot interface
-  ocs2::legged_robot::LeggedRobotInterface interface(configName, targetCommandFile, urdf::parseURDF(urdfString));
+  ocs2::legged_robot::LeggedRobotInterface interface(configName, targetCommandFile, urdf_model);
 
   // Gait receiver
   auto gaitReceiverPtr = std::make_shared<ocs2::legged_robot::GaitReceiver>(
@@ -75,8 +88,10 @@ int main(int argc, char** argv) {
   mpc.getSolverPtr()->addSynchronizedModule(gaitReceiverPtr);
 
   // Launch MPC ROS node
+  std::cerr << "FINDME" << std::endl;
   ocs2::MPC_ROS_Interface mpcNode(mpc, robotName);
   mpcNode.launchNodes(nodeHandle);
+  std::cerr << "FINDME2" << std::endl;
 
   // Successful exit
   return 0;

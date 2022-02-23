@@ -1072,12 +1072,15 @@ void GaussNewtonDDP::computeProjections(const matrix_t& Hm, const matrix_t& Dm, 
                                                      constraintNullProjector);
   }
 
+  static std::mutex mutex;
+  std::unique_lock<std::mutex> lk(mutex);
+
   // check
   if (ddpSettings_.checkNumericalStability_) {
     matrix_t HmProjected = constraintNullProjector.transpose() * Hm * constraintNullProjector;
     const int nullSpaceDim = Hm.rows() - Dm.rows();
     if (!HmProjected.isApprox(matrix_t::Identity(nullSpaceDim, nullSpaceDim))) {
-      std::cerr << "HmProjected:\n" << HmProjected << "\n";
+      std::cerr << "HmProjected should be identity:\n" << HmProjected << "\n";
       throw std::runtime_error("HmProjected should be identity!");
     }
   }

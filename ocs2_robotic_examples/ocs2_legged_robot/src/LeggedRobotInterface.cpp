@@ -123,7 +123,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
   // CentroidalModelInfo
   centroidalModelInfo_ = centroidal_model::createCentroidalModelInfo(
       *pinocchioInterfacePtr_, centroidal_model::loadCentroidalType(taskFile),
-      centroidal_model::loadDefaultJointState(12, targetCommandFile), modelSettings_.contactNames3DoF, modelSettings_.contactNames6DoF);
+      centroidal_model::loadDefaultJointState(20, targetCommandFile), modelSettings_.contactNames3DoF, modelSettings_.contactNames6DoF);
 
   // Swing trajectory planner
   std::unique_ptr<SwingTrajectoryPlanner> swingTrajectoryPlanner(
@@ -178,7 +178,7 @@ void LeggedRobotInterface::setupOptimalConrolProblem(const std::string& taskFile
                                                                     velocityUpdateCallback, footName, modelSettings_.modelFolderCppAd,
                                                                     modelSettings_.recompileLibrariesCppAd, modelSettings_.verboseCppAd));
     }
-
+    std::cerr << "Processing: " << footName << std::endl;
     problemPtr_->softConstraintPtr->add(footName + "_frictionCone",
                                         getFrictionConeConstraint(i, frictionCoefficient, barrierPenaltyConfig));
     problemPtr_->equalityConstraintPtr->add(footName + "_zeroForce", getZeroForceConstraint(i));
@@ -213,18 +213,20 @@ void LeggedRobotInterface::initializeInputCostWeight(const std::string& taskFile
   pinocchio::computeJointJacobians(model, data, q);
   pinocchio::updateFramePlacements(model, data);
 
-  matrix_t baseToFeetJacobians(3 * info.numThreeDofContacts, 12);
+  matrix_t baseToFeetJacobians(5 * info.numThreeDofContacts, 20);
+  baseToFeetJacobians.setZero();
   for (size_t i = 0; i < info.numThreeDofContacts; i++) {
     matrix_t jacobianWorldToContactPointInWorldFrame = matrix_t::Zero(6, info.generalizedCoordinatesNum);
     pinocchio::getFrameJacobian(model, data, model.getBodyId(modelSettings_.contactNames3DoF[i]), pinocchio::LOCAL_WORLD_ALIGNED,
                                 jacobianWorldToContactPointInWorldFrame);
 
-    baseToFeetJacobians.block(3 * i, 0, 3, 12) = (jacobianWorldToContactPointInWorldFrame.topRows<3>()).block(0, 6, 3, 12);
+    baseToFeetJacobians.block(5 * i, 0, 3, 20) =
+        (jacobianWorldToContactPointInWorldFrame.topRows<3>()).block(0, 6, 3, 20);
   }
 
   const size_t totalContactDim = 3 * info.numThreeDofContacts;
-  R.block(totalContactDim, totalContactDim, 12, 12) =
-      (baseToFeetJacobians.transpose() * R.block(totalContactDim, totalContactDim, 12, 12) * baseToFeetJacobians).eval();
+  R.block(totalContactDim, totalContactDim, 20, 20) =
+      (baseToFeetJacobians.transpose() * R.block(totalContactDim, totalContactDim, 20, 20) * baseToFeetJacobians).eval();
 }
 
 /******************************************************************************************************/

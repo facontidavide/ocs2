@@ -58,7 +58,7 @@ std::unique_ptr<PinocchioInterface> createAnymalPinocchioInterface() {
 CentroidalModelInfo createAnymalCentroidalModelInfo(const PinocchioInterface& pinocchioInterface, CentroidalModelType centroidalType) {
   const ModelSettings modelSettings;  // default constructor just to get contactNames3DoF
   return centroidal_model::createCentroidalModelInfo(pinocchioInterface, centroidalType,
-                                                     centroidal_model::loadDefaultJointState(12, ROBOT_COMMAND_PATH),
+                                                     centroidal_model::loadDefaultJointState(20, ROBOT_COMMAND_PATH),
                                                      modelSettings.contactNames3DoF, modelSettings.contactNames6DoF);
 }
 

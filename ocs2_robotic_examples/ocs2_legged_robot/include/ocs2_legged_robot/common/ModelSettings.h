@@ -47,14 +47,64 @@ struct ModelSettings {
   bool recompileLibrariesCppAd = true;
   std::string modelFolderCppAd = "/tmp/ocs2";
 
-  // This is only used to get names for the knees and to check urdf for extra joints that need to be fixed.
-  std::vector<std::string> jointNames{"LF_HAA", "LF_HFE", "LF_KFE", "RF_HAA", "RF_HFE", "RF_KFE",
-                                      "LH_HAA", "LH_HFE", "LH_KFE", "RH_HAA", "RH_HFE", "RH_KFE"};
+  // This is only used to get names for the knees and to check urdf for extra
+  // joints that need to be fixed.
+  std::vector<std::string> jointNames{"AL_coxa_joint",
+                                      "AL_femur_joint",  ///
+                                      "AL_tibia_joint",  ///
+                                      "AL_tarsus_joint", ///
+                                      "AL_steer_joint",  ///
+                                      "AR_coxa_joint",   ///
+                                      "AR_femur_joint",  ///
+                                      "AR_tibia_joint",  ///
+                                      "AR_tarsus_joint", ///
+                                      "AR_steer_joint",  ///
+                                      "BL_coxa_joint",   ///
+                                      "BL_femur_joint",  ///
+                                      "BL_tibia_joint",  ///
+                                      "BL_tarsus_joint", ///
+                                      "BL_steer_joint",  ///
+                                      "BR_coxa_joint",   ///
+                                      "BR_femur_joint",  ///
+                                      "BR_tibia_joint",  ///
+                                      "BR_tarsus_joint", ///
+                                      "BR_steer_joint"};
   std::vector<std::string> contactNames6DoF{};
-  std::vector<std::string> contactNames3DoF{"LF_FOOT", "RF_FOOT", "LH_FOOT", "RH_FOOT"};
+  std::vector<std::string> contactNames3DoF{"AL_foot_link", "AR_foot_link",
+                                            "BL_foot_link", "BR_foot_link"};
 };
+/*
+  std::vector<std::string> jointNames{"AL_coxa_joint",
+                                      "AL_femur_joint",  ///
+                                      "AL_tibia_joint",  ///
+                                      "AL_tarsus_joint", ///
+                                      "AL_steer_joint",  ///
+                                      "AL_wheel_joint",  ///
+                                      "AR_coxa_joint",   ///
+                                      "AR_femur_joint",  ///
+                                      "AR_tibia_joint",  ///
+                                      "AR_tarsus_joint", ///
+                                      "AR_steer_joint",  ///
+                                      "AR_wheel_joint",  ///
+                                      "BL_coxa_joint",   ///
+                                      "BL_femur_joint",  ///
+                                      "BL_tibia_joint",  ///
+                                      "BL_tarsus_joint", ///
+                                      "BL_steer_joint",  ///
+                                      "BL_wheel_joint",  ///
+                                      "BR_coxa_joint",   ///
+                                      "BR_femur_joint",  ///
+                                      "BR_tibia_joint",  ///
+                                      "BR_tarsus_joint", ///
+                                      "BR_steer_joint",  ///
+                                      "BR_wheel_joint"};
+  std::vector<std::string> contactNames6DoF{};
+  std::vector<std::string> contactNames3DoF{"AL_foot_link", "AR_foot_link",
+                                            "BL_foot_link", "BL_foot_link"};
+*/
+ModelSettings loadModelSettings(const std::string &filename,
+                                const std::string &fieldName = "model_settings",
+                                bool verbose = "true");
 
-ModelSettings loadModelSettings(const std::string& filename, const std::string& fieldName = "model_settings", bool verbose = "true");
-
-}  // namespace legged_robot
-}  // namespace ocs2
+} // namespace legged_robot
+} // namespace ocs2
