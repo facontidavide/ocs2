@@ -220,13 +220,15 @@ void LeggedRobotInterface::initializeInputCostWeight(const std::string& taskFile
     pinocchio::getFrameJacobian(model, data, model.getBodyId(modelSettings_.contactNames3DoF[i]), pinocchio::LOCAL_WORLD_ALIGNED,
                                 jacobianWorldToContactPointInWorldFrame);
 
+    std::cerr << "J:\n" << jacobianWorldToContactPointInWorldFrame << "\n";
+
     baseToFeetJacobians.block(5 * i, 0, 3, 20) =
         (jacobianWorldToContactPointInWorldFrame.topRows<3>()).block(0, 6, 3, 20);
   }
 
-  const size_t totalContactDim = 3 * info.numThreeDofContacts;
-  R.block(totalContactDim, totalContactDim, 20, 20) =
-      (baseToFeetJacobians.transpose() * R.block(totalContactDim, totalContactDim, 20, 20) * baseToFeetJacobians).eval();
+//  const size_t totalContactDim = 3 * info.numThreeDofContacts;
+//  R.block(totalContactDim, totalContactDim, 20, 20) =
+//      (baseToFeetJacobians.transpose() * R.block(totalContactDim, totalContactDim, 20, 20) * baseToFeetJacobians).eval();
 }
 
 /******************************************************************************************************/

@@ -12,8 +12,8 @@ model_settings
   positionErrorGain             0.01
   phaseTransitionStanceTime     0.4
 
-  verboseCppAd                  true
-  recompileLibrariesCppAd       true
+  verboseCppAd                  false
+  recompileLibrariesCppAd       false
   modelFolderCppAd              /tmp/ocs2
 }
 
@@ -62,13 +62,13 @@ ddp
 
   maxNumIterations                10
   minRelCost                      1e-1
-  constraintTolerance             5e-2
+  constraintTolerance             5e-3
 
-  displayInfo                     true
+  displayInfo                     false
   displayShortSummary             true
-  checkNumericalStability         true
-  debugPrintRollout               true
-  debugCaching                    true
+  checkNumericalStability         false
+  debugPrintRollout               false
+  debugCaching                    false
 
   AbsTolODE                       1e-5
   RelTolODE                       1e-3
@@ -119,7 +119,7 @@ mpc
   initMinStepLength               1e-2
   initMaxStepLength               1.0
 
-  debugPrint                      true
+  debugPrint                      false
   coldStart                       false
 
   useParallelRiccatiSolver        true ; use disjoint riccati solver in multi-thread case
@@ -235,29 +235,29 @@ R
   (11,11) 1.0       ; right_hind_force
 
   ;; Leg Joint Velocities: [LF, LH, RF, RH] ;;
-  (12,12) 500.00   ; AL_coxa_joint
-  (13,13) 500.00   ; AL_femur_joint
-  (14,14) 500.00   ; AL_tibia_joint
-  (15,15) 500.00   ; AL_tarsus_joint
-  (16,16) 500.00   ; AL_steer_joint
+  (12,12) 50.00   ; AL_coxa_joint
+  (13,13) 50.00   ; AL_femur_joint
+  (14,14) 50.00   ; AL_tibia_joint
+  (15,15) 50.00   ; AL_tarsus_joint
+  (16,16) 50.00   ; AL_steer_joint
 
-  (17,17) 500.00   ; AR_coxa_joint
-  (18,18) 500.00   ; AR_femur_joint
-  (19,19) 500.00   ; AR_tibia_joint
-  (20,20) 500.00   ; AR_tarsus_joint
-  (21,21) 500.00   ; AR_steer_joint
+  (17,17) 50.00   ; AR_coxa_joint
+  (18,18) 50.00   ; AR_femur_joint
+  (19,19) 50.00   ; AR_tibia_joint
+  (20,20) 50.00   ; AR_tarsus_joint
+  (21,21) 50.00   ; AR_steer_joint
 
-  (22,22) 500.00   ; BL_coxa_joint
-  (23,23) 500.00   ; BL_femur_joint
-  (24,24) 500.00   ; BL_tibia_joint
-  (25,25) 500.00   ; BL_tarsus_joint
-  (26,26) 500.00   ; BL_steer_joint
+  (22,22) 50.00   ; BL_coxa_joint
+  (23,23) 50.00   ; BL_femur_joint
+  (24,24) 50.00   ; BL_tibia_joint
+  (25,25) 50.00   ; BL_tarsus_joint
+  (26,26) 50.00   ; BL_steer_joint
 
-  (27,27) 500.00   ; BR_coxa_joint
-  (28,28) 500.00   ; BR_femur_joint
-  (29,29) 500.00   ; BR_tibia_joint
-  (30,30) 500.00   ; BR_tarsus_joint
-  (31,31) 500.00   ; BR_steer_joint
+  (27,27) 50.00   ; BR_coxa_joint
+  (28,28) 50.00   ; BR_femur_joint
+  (29,29) 50.00   ; BR_tibia_joint
+  (30,30) 50.00   ; BR_tarsus_joint
+  (31,31) 50.00   ; BR_steer_joint
 }
 
 frictionConeSoftConstraint

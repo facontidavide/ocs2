@@ -140,10 +140,29 @@ void LeggedRobotVisualizer::publishObservation(ros::Time timeStamp, const System
 /******************************************************************************************************/
 void LeggedRobotVisualizer::publishJointTransforms(ros::Time timeStamp, const vector_t& jointAngles) const {
   if (robotStatePublisherPtr_ != nullptr) {
-    std::map<std::string, scalar_t> jointPositions{{"LF_HAA", jointAngles[0]}, {"LF_HFE", jointAngles[1]},  {"LF_KFE", jointAngles[2]},
-                                                   {"LH_HAA", jointAngles[3]}, {"LH_HFE", jointAngles[4]},  {"LH_KFE", jointAngles[5]},
-                                                   {"RF_HAA", jointAngles[6]}, {"RF_HFE", jointAngles[7]},  {"RF_KFE", jointAngles[8]},
-                                                   {"RH_HAA", jointAngles[9]}, {"RH_HFE", jointAngles[10]}, {"RH_KFE", jointAngles[11]}};
+    std::map<std::string, scalar_t> jointPositions{{"AL_coxa_joint", jointAngles[0]},
+                                                   {"AL_femur_joint", jointAngles[1]},
+                                                   {"AL_tibia_joint", jointAngles[2]},
+                                                   {"AL_tarsus_joint", jointAngles[3]},
+                                                   {"AL_steer_joint", jointAngles[4]},
+
+                                                   {"AR_coxa_joint", jointAngles[5]},
+                                                   {"AR_femur_joint", jointAngles[6]},
+                                                   {"AR_tibia_joint", jointAngles[7]},
+                                                   {"AR_tarsus_joint", jointAngles[8]},
+                                                   {"AR_steer_joint", jointAngles[9]},
+
+                                                   {"BL_coxa_joint", jointAngles[10]},
+                                                   {"BL_femur_joint", jointAngles[11]},
+                                                   {"BL_tibia_joint", jointAngles[12]},
+                                                   {"BL_tarsus_joint", jointAngles[13]},
+                                                   {"BL_steer_joint", jointAngles[14]},
+
+                                                   {"BR_coxa_joint", jointAngles[15]},
+                                                   {"BR_femur_joint", jointAngles[16]},
+                                                   {"BR_tibia_joint", jointAngles[17]},
+                                                   {"BR_tarsus_joint", jointAngles[18]},
+                                                   {"BR_steer_joint", jointAngles[19]}};
     robotStatePublisherPtr_->publishTransforms(jointPositions, timeStamp);
   }
 }
@@ -155,7 +174,7 @@ void LeggedRobotVisualizer::publishBaseTransform(ros::Time timeStamp, const vect
   if (robotStatePublisherPtr_ != nullptr) {
     geometry_msgs::TransformStamped baseToWorldTransform;
     baseToWorldTransform.header = getHeaderMsg(frameId_, timeStamp);
-    baseToWorldTransform.child_frame_id = "base";
+    baseToWorldTransform.child_frame_id = "base_link";
 
     const Eigen::Quaternion<scalar_t> q_world_base = getQuaternionFromEulerAnglesZyx(vector3_t(basePose.tail<3>()));
     baseToWorldTransform.transform.rotation = getOrientationMsg(q_world_base);
